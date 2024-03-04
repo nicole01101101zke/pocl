@@ -954,6 +954,21 @@ endif()
 
 ######################################################################################
 
+set(SCHEDULER OFF)
+
+if(ENABLE_LLVM)
+  option(ENABLE_SCHEDULER "Enable Scheduler" ON)
+else()
+  set(ENABLE_SCHEDULER OFF CACHE INTERNAL "Scheduler disabled" FORCE)
+endif()
+
+if(ENABLE_SCHEDULER)
+  # 至少找到Python3的解释器部分，找不到会报错
+  find_package(Python3 REQUIRED COMPONENTS Interpreter)
+endif()
+
+######################################################################################
+
 set(HAVE_DLFCN_H OFF CACHE BOOL "dlopen" FORCE)
 
 if(WIN32 AND (NOT MINGW))
@@ -2327,6 +2342,7 @@ MESSAGE(STATUS "ENABLE_CL_GET_GL_CONTEXT: ${ENABLE_CL_GET_GL_CONTEXT}")
 MESSAGE(STATUS "ENABLE_OPENGL_INTEROP: ${ENABLE_OPENGL_INTEROP}")
 MESSAGE(STATUS "ENABLE_EGL_INTEROP: ${ENABLE_EGL_INTEROP}")
 
+MESSAGE(STATUS "ENABLE_SCHEDULER: ${ENABLE_SCHEDULER}")
 MESSAGE(STATUS "ENABLE_SLEEF: ${ENABLE_SLEEF}")
 MESSAGE(STATUS "ENABLE_SPIRV: ${ENABLE_SPIRV}")
 MESSAGE(STATUS "ENABLE_VALGRIND: ${ENABLE_VALGRIND}")

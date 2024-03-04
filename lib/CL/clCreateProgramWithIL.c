@@ -132,17 +132,31 @@ CL_API_SUFFIX__VERSION_2_1
   int is_spirv_kernel
       = pocl_bitcode_is_spirv_execmodel_kernel ((const char *)il, length);
   is_spirv += is_spirv_kernel;
+  POCL_GOTO_ERROR_ON (
+      (!is_spirv), CL_INVALID_VALUE,
+      "The IL provided to clCreateProgramWithIL "
+      "is not recognized as SPIR-V!\n");
 #endif
 #ifdef ENABLE_VULKAN
   int is_spirv_shader
       = pocl_bitcode_is_spirv_execmodel_shader ((const char *)il, length);
   is_spirv += is_spirv_shader;
-#endif
-
   POCL_GOTO_ERROR_ON (
       (!is_spirv), CL_INVALID_VALUE,
       "The IL provided to clCreateProgramWithIL "
       "is not recognized as SPIR-V!\n");
+#endif
+
+#ifdef ENABLE_SCHEDULER
+int is_llvmir = 0;
+  int is_llvmir_kernel
+      = pocl_file_is_llvmir_execmodel_kernel ((const char *)il, length); //该函数未实现
+  is_llvmir += is_llvmir_kernel;
+  POCL_GOTO_ERROR_ON (
+      (!is_llvmir), CL_INVALID_VALUE,
+      "The IL provided to clCreateProgramWithIL "
+      "is not recognized as LLVM IR!\n");
+#endif
 
   /* TODO should we create a program for all devices ?
    * should we fail if we can't create for all devices ?

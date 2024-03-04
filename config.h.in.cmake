@@ -58,6 +58,8 @@
 #cmakedefine ENABLE_CL_GET_GL_CONTEXT
 #endif
 
+#cmakedefine ENABLE_SCHEDULER
+
 #cmakedefine ENABLE_SLEEF
 
 #cmakedefine ENABLE_SPIRV
